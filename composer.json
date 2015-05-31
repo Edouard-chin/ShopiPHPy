@@ -1,0 +1,14 @@
+{
+    "name": "dudek/shopiphpy",
+    "description": "A php library for interacting with the Shopify API",
+    "require": {
+        "kriswallsmith/buzz": "0.13.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Edouard CHIN",
+            "email": "chin.edouard@gmail.com"
+        }
+    ]
+}
