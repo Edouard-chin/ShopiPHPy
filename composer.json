@@ -10,5 +10,10 @@
             "name": "Edouard CHIN",
             "email": "chin.edouard@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-0": {
+            "Shopiphpy": "lib/"
+        }
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dudek;
+namespace Shopiphpy;
 
 class ShopifyOAuthHelper
 {
