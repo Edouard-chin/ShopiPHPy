@@ -26,13 +26,26 @@ class Resource
         return $this->getProperty('updated_at');
     }
 
-    public function getProperty($property, $type = 'Shopiphpy\Resource\Resource')
+    public function getProperty($property, $resource = 'Shopiphpy\Resource\Resource')
     {
         $value = $this->data->$property;
         if (is_scalar($value)) {
             return $value;
         }
+        if (!class_exists($resource)) {
+            throw new \RuntimeException('Resource type does not exists');
+        }
 
-        return new $type($value);
+        $value = reset($value);
+        $resources = [];
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $resources[] = new $resource($v);
+            }
+        } else {
+            $resources = new $resource($value);
+        }
+
+        return $resources;
     }
 }

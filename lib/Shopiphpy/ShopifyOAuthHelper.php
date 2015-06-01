@@ -57,7 +57,7 @@ class ShopifyOAuthHelper
         return new ShopifySession(json_decode($response->getContent())->access_token, $this->shopName);
     }
 
-    public function isValidRequest()
+    protected function isValidRequest()
     {
         $rawString = '';
         $resolver = (new OptionsResolver())
