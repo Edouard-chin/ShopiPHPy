@@ -2,7 +2,8 @@
     "name": "dudek/shopiphpy",
     "description": "A php library for interacting with the Shopify API",
     "require": {
-        "kriswallsmith/buzz": "0.13.*"
+        "kriswallsmith/buzz": "0.13.*",
+        "symfony/options-resolver": "^2.7"
     },
     "license": "MIT",
     "authors": [

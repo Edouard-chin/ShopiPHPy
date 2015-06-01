@@ -4,10 +4,6 @@ namespace Shopiphpy;
 
 class ShopifySession
 {
-    private static $apiKey;
-    private static $shopName;
-    private static $clientId;
-    private static $clientSecret;
     private $accessToken;
 
     public function __construct($accessToken)
@@ -15,11 +11,8 @@ class ShopifySession
         $this->accessToken = $accessToken;
     }
 
-    public function setDefaultCredentials($apiKey, $shopName, $clientId, $clientSecret)
+    public function getAccessToken()
     {
-        self::$apiKey = $apiKey;
-        self::$shopName = $shopName;
-        self::$shopName = $shopName;
-        self::$clientSecret = $clientSecret;
+        return $this->accessToken;
     }
 }
