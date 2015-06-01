@@ -3,7 +3,7 @@
 namespace Shopiphpy;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Shopiphpy\Exception\ShopifyRequestException;
 
 class ShopifyOAuthHelper
@@ -27,8 +27,8 @@ class ShopifyOAuthHelper
     }
 
     /**
-     * @param array  $scopes      An array of scopes your application needs
-     * @param string $callbackUri The callback Url
+     * @param  array  $scopes      An array of scopes your application needs
+     * @param  string $callbackUri The callback Url
      *
      * @return string
      */
@@ -44,17 +44,19 @@ class ShopifyOAuthHelper
     }
 
     /**
-     * @param \Buzz\Browser $brower An instance of Buzz
+     * @param  \Buzz\Browser           $brower          An instance of Buzz
+     * @param  array                   $queryParameters The $_GET parameters
      *
-     * @throws ShopifyRequestException If query parameters are incomplete or if hmac signature verification fails
+     * @throws ShopifyRequestException                  If query parameters are incomplete or if hmac signature verification fails
      *
      * @return ShopifySession
      */
-    public function getShopifySession(\Buzz $browser = null)
+    public function getShopifySession(array $queryParameters = [], \Buzz\Browser $browser = null)
     {
+        $queryParameters = count($queryParameters) !== 0 ? $queryParameters : $_GET;
         try {
-            $authenticRequest = $this->isValidRequest();
-        } catch (UndefinedOptionsException $e) {
+            $authenticRequest = $this->isValidRequest($queryParameters);
+        } catch (MissingOptionsException $e) {
             throw new ShopifyRequestException('Missing query parameters:'.$e);
         }
 
@@ -64,7 +66,7 @@ class ShopifyOAuthHelper
         $content = [
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'code' => $_GET['code'],
+            'code' => $queryParameters['code'],
         ];
         $browser = $browser ?: new \Buzz\Browser(new \Buzz\Client\Curl());
         $response = $browser->post("{$this->baseUri}/access_token", [], http_build_query($content));
@@ -78,16 +80,19 @@ class ShopifyOAuthHelper
     /**
      * @see https://docs.shopify.com/api/authentication/oauth#verification
      *
-     * @return boolean Whether or not the signature is correct
+     * @param  array   $queryParameters The $_GET parameters
+     *
+     * @return boolean                  Whether or not the signature is correct
      */
-    protected function isValidRequest()
+    protected function isValidRequest(array $queryParameters = [])
     {
+        $queryParameters = count($queryParameters) !== 0 ? $queryParameters : $_GET;
         $rawString = '';
         $resolver = (new OptionsResolver())
             ->setRequired(['shop', 'code', 'timestamp', 'hmac'])
             ->setDefined('signature')
         ;
-        $datas = $resolver->resolve($_GET);
+        $datas = $resolver->resolve($queryParameters);
         $returnedHmac = $datas['hmac'];
         unset($datas['hmac'], $datas['signature']);
         $rawString = http_build_query($datas);
