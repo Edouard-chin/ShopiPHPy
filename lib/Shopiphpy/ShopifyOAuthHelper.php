@@ -27,8 +27,8 @@ class ShopifyOAuthHelper
     }
 
     /**
-     * @param  array  $scopes      An array of scopes your application needs
-     * @param  string $callbackUri The callback Url
+     * @param array  $scopes      An array of scopes your application needs
+     * @param string $callbackUri The callback Url
      *
      * @return string
      */
@@ -44,10 +44,10 @@ class ShopifyOAuthHelper
     }
 
     /**
-     * @param  \Buzz\Browser           $brower          An instance of Buzz
-     * @param  array                   $queryParameters The $_GET parameters
+     * @param \Buzz\Browser $brower          An instance of Buzz
+     * @param array         $queryParameters The $_GET parameters
      *
-     * @throws ShopifyRequestException                  If query parameters are incomplete or if hmac signature verification fails
+     * @throws ShopifyRequestException If query parameters are incomplete or if hmac signature verification fails
      *
      * @return ShopifySession
      */
@@ -80,9 +80,9 @@ class ShopifyOAuthHelper
     /**
      * @see https://docs.shopify.com/api/authentication/oauth#verification
      *
-     * @param  array   $queryParameters The $_GET parameters
+     * @param array $queryParameters The $_GET parameters
      *
-     * @return boolean                  Whether or not the signature is correct
+     * @return bool Whether or not the signature is correct
      */
     protected function isValidRequest(array $queryParameters = [])
     {

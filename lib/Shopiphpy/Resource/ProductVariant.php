@@ -13,7 +13,7 @@ class ProductVariant extends Product
     }
 
     /**
-     * @param int $numeric  Whether or not the returned value should be casted
+     * @param int $numeric Whether or not the returned value should be casted
      *
      * @return string|int
      */

@@ -33,15 +33,15 @@ class ShopifySession
     }
 
     /**
-     * @param string $method           The Request method
-     * @param string $path             The path endpoints
-     * @param array  $parameters       An array of parameters to send with the request
-     * @param string $resource         Which type of resource the request should return
+     * @param string $method     The Request method
+     * @param string $path       The path endpoints
+     * @param array  $parameters An array of parameters to send with the request
+     * @param string $resource   Which type of resource the request should return
      *
      * @throws ShopifyRequestException If the request fails
      * @throws RuntimeException        If resource class does not exists
      *
-     * @return array|string            An array or a single resource
+     * @return array|string An array or a single resource
      */
     public function request($method, $path, array $parameters = [], $resource = 'Shopiphpy\Resource\Resource')
     {

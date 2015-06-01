@@ -29,7 +29,7 @@ class Product extends Resource
     }
 
     /**
-     * Returns a single on an array of ProductVariant object
+     * Returns a single or an array of ProductVariant object.
      *
      * @return array|ProductVariant
      */
