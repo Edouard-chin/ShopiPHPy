@@ -18,12 +18,12 @@ class Resource
 
     public function getCreatedAt()
     {
-        return $this->getProperty('created_at');
+        return $this->createDateTimeObject($this->getProperty('created_at'));
     }
 
     public function getUpdatedAt()
     {
-        return $this->getProperty('updated_at');
+        return $this->createDateTimeObject($this->getProperty('updated_at'));
     }
 
     public function getProperty($property, $resource = 'Shopiphpy\Resource\Resource')
@@ -47,5 +47,10 @@ class Resource
         }
 
         return $resources;
+    }
+
+    private function createDateTimeObject($value)
+    {
+        return $value ? new \DateTime($value) : null;
     }
 }

@@ -12,6 +12,11 @@ class ShopifySession
     private $browser;
     private $baseUri;
 
+    /**
+     * @param string        $accessToken A store access token
+     * @param string        $shopName    The name of your shop
+     * @param \Buzz\Browser $Browser     An instance of Browser
+     */
     public function __construct($accessToken, $shopName, \Buzz\Browser $browser = null)
     {
         $this->accessToken = $accessToken;
@@ -19,11 +24,25 @@ class ShopifySession
         $this->baseUri = "https://{$shopName}.myshopify.com";
     }
 
+    /**
+     * @return string
+     */
     public function getAccessToken()
     {
         return $this->accessToken;
     }
 
+    /**
+     * @param string $method           The Request method
+     * @param string $path             The path endpoints
+     * @param array  $parameters       An array of parameters to send with the request
+     * @param string $resource         Which type of resource the request should return
+     *
+     * @throws ShopifyRequestException If the request fails
+     * @throws RuntimeException        If resource class does not exists
+     *
+     * @return array|string            An array or a single resource
+     */
     public function request($method, $path, array $parameters = [], $resource = 'Shopiphpy\Resource\Resource')
     {
         $url = $this->baseUri.$path;

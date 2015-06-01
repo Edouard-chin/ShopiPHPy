@@ -13,6 +13,11 @@ class ShopifyOAuthHelper
     private $clientSecret;
     private $baseUri;
 
+    /**
+     * @param string $shopName     The name of your shop
+     * @param string $clientId     Your client id crendential
+     * @param string $clientSecret Your cliend secret credential
+     */
     public function __construct($shopName, $clientId, $clientSecret)
     {
         $this->shopName = $shopName;
@@ -21,6 +26,12 @@ class ShopifyOAuthHelper
         $this->baseUri = "https://{$shopName}.myshopify.com/admin/oauth";
     }
 
+    /**
+     * @param array  $scopes      An array of scopes your application needs
+     * @param string $callbackUri The callback Url
+     *
+     * @return string
+     */
     public function createLoginUri(array $scopes, $callbackUri = null)
     {
         $params = [
@@ -32,6 +43,13 @@ class ShopifyOAuthHelper
         return "{$this->baseUri}/authorize?".http_build_query($params);
     }
 
+    /**
+     * @param \Buzz\Browser $brower An instance of Buzz
+     *
+     * @throws ShopifyRequestException If query parameters are incomplete or if hmac signature verification fails
+     *
+     * @return ShopifySession
+     */
     public function getShopifySession(\Buzz $browser = null)
     {
         try {
@@ -57,6 +75,11 @@ class ShopifyOAuthHelper
         return new ShopifySession(json_decode($response->getContent())->access_token, $this->shopName);
     }
 
+    /**
+     * @see https://docs.shopify.com/api/authentication/oauth#verification
+     *
+     * @return boolean Whether or not the signature is correct
+     */
     protected function isValidRequest()
     {
         $rawString = '';
