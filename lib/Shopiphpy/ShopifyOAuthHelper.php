@@ -48,8 +48,8 @@ class ShopifyOAuthHelper
      * @param \Buzz\Browser $brower          An instance of Buzz
      * @param array         $queryParameters The $_GET parameters
      *
-     * @throws ShopifyRequestException       If request to get an access token fails
-     * @throws ShopifyException              In case query paramaters are missing or hmac signature verification fails
+     * @throws ShopifyRequestException If request to get an access token fails
+     * @throws ShopifyException        In case query paramaters are missing or hmac signature verification fails
      *
      * @return ShopifySession
      */

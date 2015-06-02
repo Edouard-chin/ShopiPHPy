@@ -2,8 +2,6 @@
 
 namespace Shopiphpy\Exception;
 
-use Shopiphpy\Exception\ShopifyApiRateLimitException;
-
 class ShopifyRequestException extends \Exception
 {
     private $errorCode;
@@ -36,8 +34,8 @@ class ShopifyRequestException extends \Exception
     }
 
     /**
-     * @param  int    $errorCode The http response status code
-     * @param  string $reason    The reason of the failure
+     * @param int    $errorCode The http response status code
+     * @param string $reason    The reason of the failure
      *
      * @return ShopifyRequestException
      */

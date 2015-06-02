@@ -29,7 +29,7 @@ class Resource
     public function getProperty($property, $resource = 'Shopiphpy\Resource\Resource')
     {
         if (!isset($this->data->$property)) {
-            return null;
+            return;
         }
         $value = $this->data->$property;
         if (is_scalar($value)) {
