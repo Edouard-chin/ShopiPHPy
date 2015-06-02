@@ -60,7 +60,7 @@ class ShopifySession
         $url = $this->baseUri.$path;
         $response = $this->browser->call($url, $method, [self::HEADER_TOKEN => $this->accessToken], http_build_query($parameters));
         if (!$response->isSuccessful()) {
-            throw new ShopifyRequestException("Request failed, reason: {$response->getReasonPhrase()}");
+            throw ShopifyRequestException::create($response->getStatusCode(), $response->getReasonPhrase());
         }
         if (!class_exists($resource)) {
             throw new \RuntimeException('Resource type does not exists');

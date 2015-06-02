@@ -48,8 +48,8 @@ class ShopifyOAuthHelper
      * @param \Buzz\Browser $brower          An instance of Buzz
      * @param array         $queryParameters The $_GET parameters
      *
-     * @throws ShopifyRequestException If hmac signature verification fails or request to get an access token fails
-     * @throws ShopifyException        In case query paramaters are missing
+     * @throws ShopifyRequestException       If request to get an access token fails
+     * @throws ShopifyException              In case query paramaters are missing or hmac signature verification fails
      *
      * @return ShopifySession
      */
@@ -73,7 +73,7 @@ class ShopifyOAuthHelper
         $browser = $browser ?: new \Buzz\Browser(new \Buzz\Client\Curl());
         $response = $browser->post("{$this->baseUri}/access_token", [], http_build_query($content));
         if (!$response->isSuccessful()) {
-            throw new ShopifyRequestException("Request failed, reason: {$response->getReasonPhrase()}");
+            throw ShopifyRequestException::create($response->getStatusCode(), $response->getReasonPhrase());
         }
 
         return new ShopifySession(json_decode($response->getContent())->access_token, $this->shopName);

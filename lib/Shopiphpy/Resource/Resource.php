@@ -39,7 +39,6 @@ class Resource
             throw new \RuntimeException('Resource type does not exists');
         }
 
-        $value = reset($value);
         $resources = [];
         if (is_array($value)) {
             foreach ($value as $k => $v) {
