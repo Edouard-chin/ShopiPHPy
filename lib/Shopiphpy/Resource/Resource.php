@@ -28,6 +28,9 @@ class Resource
 
     public function getProperty($property, $resource = 'Shopiphpy\Resource\Resource')
     {
+        if (!isset($this->data->$property)) {
+            return null;
+        }
         $value = $this->data->$property;
         if (is_scalar($value)) {
             return $value;
@@ -49,7 +52,7 @@ class Resource
         return $resources;
     }
 
-    private function createDateTimeObject($value)
+    protected function createDateTimeObject($value)
     {
         return $value ? new \DateTime($value) : null;
     }

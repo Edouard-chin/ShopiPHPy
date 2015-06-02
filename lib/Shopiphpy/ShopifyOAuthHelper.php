@@ -5,6 +5,7 @@ namespace Shopiphpy;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Shopiphpy\Exception\ShopifyRequestException;
+use Shopiphpy\Exception\ShopifyException;
 
 class ShopifyOAuthHelper
 {
@@ -47,7 +48,8 @@ class ShopifyOAuthHelper
      * @param \Buzz\Browser $brower          An instance of Buzz
      * @param array         $queryParameters The $_GET parameters
      *
-     * @throws ShopifyRequestException If query parameters are incomplete or if hmac signature verification fails
+     * @throws ShopifyRequestException If hmac signature verification fails or request to get an access token fails
+     * @throws ShopifyException        In case query paramaters are missing
      *
      * @return ShopifySession
      */
@@ -57,11 +59,11 @@ class ShopifyOAuthHelper
         try {
             $authenticRequest = $this->isValidRequest($queryParameters);
         } catch (MissingOptionsException $e) {
-            throw new ShopifyRequestException('Missing query parameters:'.$e);
+            throw new ShopifyException('Missing query parameters:'.$e);
         }
 
         if ($authenticRequest === false) {
-            throw new ShopifyRequestException('HMAC Signature Validation Mismatch');
+            throw new ShopifyException('HMAC Signature Validation Mismatch');
         }
         $content = [
             'client_id' => $this->clientId,
@@ -87,7 +89,6 @@ class ShopifyOAuthHelper
     protected function isValidRequest(array $queryParameters = [])
     {
         $queryParameters = count($queryParameters) !== 0 ? $queryParameters : $_GET;
-        $rawString = '';
         $resolver = (new OptionsResolver())
             ->setRequired(['shop', 'code', 'timestamp', 'hmac'])
             ->setDefined('signature')

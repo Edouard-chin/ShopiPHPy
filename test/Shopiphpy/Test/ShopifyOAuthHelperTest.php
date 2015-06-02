@@ -41,7 +41,7 @@ class ShopifyOAuthHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-    * @expectedException     Shopiphpy\Exception\ShopifyRequestException
+    * @expectedException     Shopiphpy\Exception\ShopifyException
     */
     public function testHashHmacValidationFails()
     {
@@ -58,7 +58,7 @@ class ShopifyOAuthHelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-    * @expectedException     Shopiphpy\Exception\ShopifyRequestException
+    * @expectedException     Shopiphpy\Exception\ShopifyException
     */
     public function testShopifyExceptionIsThrownBecauseQueryParametersAreMissing()
     {
