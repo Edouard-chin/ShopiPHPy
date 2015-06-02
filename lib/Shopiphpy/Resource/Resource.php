@@ -29,23 +29,18 @@ class Resource
     public function getProperty($property, $resource = 'Shopiphpy\Resource\Resource')
     {
         if (!isset($this->data->$property)) {
-            return;
+            return null;
         }
         $value = $this->data->$property;
-        if (is_scalar($value)) {
+        if (is_scalar($value) || !is_array($value)) {
             return $value;
         }
         if (!class_exists($resource)) {
             throw new \RuntimeException('Resource type does not exists');
         }
-
         $resources = [];
-        if (is_array($value)) {
-            foreach ($value as $k => $v) {
-                $resources[] = new $resource($v);
-            }
-        } else {
-            $resources = new $resource($value);
+        foreach ($value as $k => $v) {
+            $resources[] = new $resource($v);
         }
 
         return $resources;
