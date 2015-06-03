@@ -33,7 +33,7 @@ class ShopifyOAuthHelperTest extends \PHPUnit_Framework_TestCase
             'hmac' => '8a7e00ed8429043904861838ae869b6d27ea84ac780ed1b94e3cbd5565d0454a',
             'shop' => self::SHOP_NAME,
         ];
-        $content ='{"access_token": "my_access_token"}';
+        $content = '{"access_token": "my_access_token"}';
         $mock = $this->createBuzz(['HTTP/1.1 200 OK'], $content, 'post');
         $shopifySession = $this->oAuthHelper->getShopifySession($queryParameters, $mock);
 

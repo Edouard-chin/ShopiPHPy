@@ -32,7 +32,10 @@ class Resource
             return null;
         }
         $value = $this->data->$property;
-        if (is_scalar($value) || !is_array($value)) {
+        if ($value instanceof \stdClass) {
+            return new $resource($value);
+        }
+        if (is_scalar($value)) {
             return $value;
         }
         if (!class_exists($resource)) {
