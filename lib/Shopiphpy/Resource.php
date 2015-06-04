@@ -50,11 +50,11 @@ class Resource
 
     /**
      * @param string  $property
-     * @param boolean $castToDateTime
+     * @param boolean $toDateTime
      *
      * @return mixed
      */
-    public function getProperty($property, $castToDateTime)
+    public function getProperty($property, $toDateTime)
     {
         if (!isset($this->data->$property)) {
             return null;
@@ -64,7 +64,7 @@ class Resource
             return new self($value);
         }
         if (is_scalar($value)) {
-            return $castToDateTime ? $this->createDateTimeObject($value) : $value;
+            return $toDateTime ? $this->createDateTimeObject($value) : $value;
         }
         $resources = [];
         foreach ($value as $k => $v) {
