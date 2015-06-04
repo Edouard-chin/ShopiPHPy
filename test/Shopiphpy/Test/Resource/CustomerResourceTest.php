@@ -2,8 +2,6 @@
 
 namespace Shopiphpy\Test;
 
-use Shopiphpy\Resource\Customer;
-
 class CustomerResourceTest extends AbstractResourceTest
 {
     /**
@@ -18,10 +16,10 @@ class CustomerResourceTest extends AbstractResourceTest
             ->method('call')
             ->will($this->returnValue($response))
         ;
-        $returnedCustomers = $this->shopifySession->request('GET', '/admin/customers.json', [], Customer::getCalledClass());
+        $returnedCustomers = $this->shopifySession->request('GET', '/admin/customers.json', []);
         $this->assertEquals('Bob', $returnedCustomers[0]->getFirstName());
         $this->assertEquals('United States', $returnedCustomers[0]->getDefaultAddress()->getCountry());
-        $this->assertEquals('Chestnut Street 92', $returnedCustomers[0]->getAddresses()[0]->getAddressOne());
+        $this->assertEquals('Chestnut Street 92', $returnedCustomers[0]->getAddresses()[0]->getAddress1());
     }
 
     public function getCustomers()

@@ -3,7 +3,6 @@
 namespace Shopiphpy\Test;
 
 use Shopiphpy\ShopifySession;
-use Shopiphpy\Resource\Product;
 
 class ShopifySessionTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +29,7 @@ class ShopifySessionTest extends \PHPUnit_Framework_TestCase
             ->method('call')
             ->will($this->returnValue($response))
         ;
-        $returnedProducts = $this->shopifySession->request('GET', '/admin/products.json', [], Product::getCalledClass());
+        $returnedProducts = $this->shopifySession->request('GET', '/admin/products.json', []);
     }
 
     /**
@@ -44,6 +43,6 @@ class ShopifySessionTest extends \PHPUnit_Framework_TestCase
             ->method('call')
             ->will($this->returnValue($response))
         ;
-        $returnedProducts = $this->shopifySession->request('GET', '/admin/products.json', [], Product::getCalledClass());
+        $returnedProducts = $this->shopifySession->request('GET', '/admin/products.json', []);
     }
 }

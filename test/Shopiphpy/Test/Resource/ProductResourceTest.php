@@ -2,8 +2,6 @@
 
 namespace Shopiphpy\Test;
 
-use Shopiphpy\Resource\Product;
-
 class ProductResourceTest extends AbstractResourceTest
 {
     /**
@@ -18,7 +16,7 @@ class ProductResourceTest extends AbstractResourceTest
             ->method('call')
             ->will($this->returnValue($response))
         ;
-        $returnedProducts = $this->shopifySession->request('GET', '/admin/products.json', [], Product::getCalledClass());
+        $returnedProducts = $this->shopifySession->request('GET', '/admin/products.json', []);
         $this->assertEquals('Regular bblack tshirt', $returnedProducts[0]->getTitle());
         $this->assertEquals(2, count($returnedProducts[0]->getVariants()));
     }

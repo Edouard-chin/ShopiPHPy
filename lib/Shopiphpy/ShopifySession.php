@@ -3,6 +3,7 @@
 namespace Shopiphpy;
 
 use Shopiphpy\Exception\ShopifyRequestException;
+use Shopiphpy\Resource;
 
 class ShopifySession
 {
@@ -55,26 +56,25 @@ class ShopifySession
      *
      * @return array|Resource An array of resource or a single resource
      */
-    public function request($method, $path, array $parameters = [], $resource = 'Shopiphpy\Resource\Resource')
+    public function request($method, $path, array $parameters = [])
     {
         $url = $this->baseUri.$path;
         $response = $this->browser->call($url, $method, [self::HEADER_TOKEN => $this->accessToken], http_build_query($parameters));
         if (!$response->isSuccessful()) {
             throw ShopifyRequestException::create($response->getStatusCode(), $response->getReasonPhrase());
         }
-        if (!class_exists($resource)) {
-            throw new \RuntimeException('Resource type does not exists');
-        }
+
         $this->apiCallLimit = $response->getHeader(self::HEADER_API_RATE_LIMIT);
-        $decodedContent = json_decode($response->getContent());
-        $object = reset($decodedContent);
+        $rawData = json_decode($response->getContent());
+        $data = get_object_vars($rawData);
+        $keys = array_keys($data);
+        if (!is_array($object = $data[$keys[0]])) {
+            return new Resource($object);
+        }
+
         $resources = [];
-        if (is_array($object)) {
-            foreach ($object as $k => $v) {
-                $resources[] = new $resource($v);
-            }
-        } else {
-            $resources = new $resource($object);
+        foreach ($object as $k => $v) {
+            $resources[] = new Resource($v);
         }
 
         return $resources;
